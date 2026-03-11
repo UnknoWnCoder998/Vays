@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МедЦентр — Доктор Вайс</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f8f4ef;
+    --dark: #1a1a2e;
+    --sage: #8aab9a;
+    --sage-light: #b8d4c6;
+    --rose: #c9897a;
+    --rose-light: #e8c4bc;
+    --gold: #c4a35a;
+    --text: #2d2d2d;
+    --text-light: #6b6b6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(248,244,239,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(138,171,154,0.2);
+    animation: fadeDown 0.8s ease both;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--dark);
+  }
+
+  .nav-logo span { color: var(--sage); }
+
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-light);
+    text-decoration: none; transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--sage); }
+
+  .nav-cta {
+    background: var(--dark); color: var(--cream) !important;
+    padding: 10px 24px; border-radius: 40px;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--sage) !important; color: var(--cream) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 140px 60px 80px;
+    position: relative; z-index: 2;
+    animation: fadeInLeft 1s ease 0.3s both;
+  }
+
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--sage);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--sage);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--dark); margin-bottom: 32px;
+  }
+
+  .hero-title em {
+    font-style: italic; color: var(--sage);
+  }
+
+  .hero-desc {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--text-light); max-width: 440px;
+    margin-bottom: 48px; font-weight: 300;
+  }
+
+  .hero-actions { display: flex; gap: 20px; align-items: center; }
+
+  .btn-primary {
+    background: var(--dark); color: var(--cream);
+    padding: 16px 40px; border-radius: 50px;
+    font-family: 'Jost', sans-serif; font-size: 0.85rem;
+    font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s;
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--sage); transform: translateY(-2px); }
+
+  .btn-outline {
+    color: var(--text); font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; display: flex; align-items: center; gap: 10px;
+    transition: color 0.3s;
+  }
+  .btn-outline:hover { color: var(--sage); }
+  .btn-outline span {
+    width: 40px; height: 40px; border: 1px solid currentColor;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    animation: fadeInRight 1s ease 0.5s both;
+  }
+
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #d4e8dd 0%, #e8c4bc 60%, #f0d4c8 100%);
+  }
+
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .hero-ornament {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px; height: 460px;
+    border-radius: 200px 200px 200px 200px / 260px 260px 180px 180px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; padding: 40px;
+  }
+
+  .doctor-initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; color: var(--dark);
+    line-height: 1; margin-bottom: 16px; opacity: 0.6;
+  }
+
+  .doctor-title-hero {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dark); opacity: 0.5; line-height: 1.8;
+  }
+
+  .hero-floating-badge {
+    position: absolute; bottom: 60px; right: 40px;
+    background: white; border-radius: 16px;
+    padding: 20px 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .badge-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300; color: var(--sage);
+    line-height: 1;
+  }
+
+  .badge-text { font-size: 0.7rem; color: var(--text-light); letter-spacing: 0.1em; }
+
+  /* SERVICES */
+  .services {
+    padding: 120px 60px;
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+
+  .services::before {
+    content: 'УСЛУГИ'; position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18vw; font-weight: 300; color: rgba(255,255,255,0.02);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    white-space: nowrap; pointer-events: none;
+  }
+
+  .section-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 70px;
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--sage);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .section-eyebrow::before {
+    content: ''; display: block;
+    width: 30px; height: 1px; background: var(--sage);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+    font-weight: 300; line-height: 1.2; color: var(--cream);
+  }
+
+  .section-title em { font-style: italic; color: var(--rose-light); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,0.04);
+    padding: 40px 32px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: all 0.4s ease;
+    cursor: default;
+    position: relative; overflow: hidden;
+  }
+
+  .service-card::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--sage); transform: scaleX(0);
+    transform-origin: left; transition: transform 0.4s ease;
+  }
+
+  .service-card:hover {
+    background: rgba(138,171,154,0.1);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem; color: var(--sage);
+    margin-bottom: 24px; letter-spacing: 0.1em;
+  }
+
+  .service-icon {
+    font-size: 1.8rem; margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-name {
+    font-size: 0.82rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cream); line-height: 1.6;
+  }
+
+  .service-desc {
+    margin-top: 12px; font-size: 0.78rem;
+    color: rgba(255,255,255,0.35); line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* DOCTOR */
+  .doctor {
+    padding: 120px 60px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    background: var(--cream);
+  }
+
+  .doctor-visual {
+    position: relative; animation: fadeInLeft 0.8s ease 0.2s both;
+  }
+
+  .doctor-frame {
+    width: 100%;
+    padding-top: 120%;
+    background: linear-gradient(160deg, #d4e8dd, #e8c4bc);
+    border-radius: 200px 200px 120px 120px;
+    position: relative; overflow: hidden;
+  }
+
+  .doctor-frame-inner {
+    position: absolute; inset: 20px;
+    border-radius: inherit;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center;
+    justify-content: center; flex-direction: column;
+  }
+
+  .doctor-monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 8rem; font-weight: 300;
+    color: rgba(26,26,46,0.15); line-height: 1;
+  }
+
+  .doctor-badge-side {
+    position: absolute; bottom: 40px; right: -20px;
+    background: var(--dark); color: var(--cream);
+    padding: 24px 28px; border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+
+  .doctor-badge-side .bd { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; }
+  .doctor-badge-side .bt { font-size: 0.68rem; letter-spacing: 0.12em; color: var(--sage-light); margin-top: 4px; }
+
+  .doctor-content { animation: fadeInRight 0.8s ease 0.3s both; }
+
+  .credentials {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin: 28px 0 36px;
+  }
+
+  .cred-tag {
+    padding: 8px 18px;
+    border: 1px solid var(--sage-light);
+    border-radius: 40px; font-size: 0.72rem;
+    font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--sage);
+    background: rgba(138,171,154,0.08);
+  }
+
+  .doctor-bio {
+    font-size: 1rem; line-height: 1.9;
+    color: var(--text-light); font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .doctor-name-large {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 400; line-height: 1.15;
+    color: var(--dark); margin-bottom: 8px;
+  }
+
+  .doctor-name-large span {
+    display: block; font-size: 0.6em;
+    font-weight: 300; color: var(--text-light);
+    letter-spacing: 0.05em; font-style: italic;
+  }
+
+  /* ABOUT / TRUST */
+  .trust {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d3b3b 100%);
+    padding: 100px 60px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .trust-item {
+    padding: 60px 50px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.3s;
+  }
+
+  .trust-item:hover { background: rgba(138,171,154,0.08); }
+
+  .trust-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.5rem; font-weight: 300;
+    color: var(--sage); line-height: 1;
+  }
+
+  .trust-num sup { font-size: 1.5rem; }
+
+  .trust-label {
+    margin-top: 16px; font-size: 0.78rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); line-height: 1.6;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 120px 60px;
+    background: var(--cream);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+
+  .contact-form-area {
+    background: var(--dark);
+    padding: 60px; border-radius: 24px;
+    position: relative; overflow: hidden;
+  }
+
+  .contact-form-area::before {
+    content: ''; position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: var(--sage); opacity: 0.1;
+    border-radius: 50%;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300;
+    color: var(--cream); margin-bottom: 8px;
+  }
+
+  .form-sub { font-size: 0.85rem; color: rgba(255,255,255,0.4); margin-bottom: 40px; }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 16px 20px;
+    color: var(--cream); font-family: 'Jost', sans-serif;
+    font-size: 0.9rem; outline: none; transition: border-color 0.3s;
+    resize: none;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--sage); }
+
+  .btn-form {
+    width: 100%; padding: 18px;
+    background: var(--sage); color: var(--dark);
+    border: none; border-radius: 12px;
+    font-family: 'Jost', sans-serif; font-size: 0.85rem;
+    font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; cursor: pointer;
+    transition: all 0.3s; margin-top: 8px;
+  }
+
+  .btn-form:hover { background: var(--sage-light); transform: translateY(-2px); }
+
+  .contact-info { padding-top: 20px; }
+
+  .contact-info .section-title { color: var(--dark); }
+  .contact-info .section-title em { color: var(--rose); }
+
+  .contact-details { margin-top: 48px; display: flex; flex-direction: column; gap: 32px; }
+
+  .contact-item { display: flex; gap: 20px; align-items: flex-start; }
+
+  .contact-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--sage-light), var(--rose-light));
+    border-radius: 14px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+
+  .contact-text-label {
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .contact-text-val {
+    font-size: 1rem; color: var(--dark);
+    font-weight: 400; line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    padding: 50px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--cream); font-weight: 400;
+  }
+
+  .footer-logo span { color: var(--sage); }
+
+  .footer-text {
+    font-size: 0.75rem; color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links { display: flex; gap: 30px; }
+
+  .footer-links a {
+    font-size: 0.75rem; color: rgba(255,255,255,0.35);
+    text-decoration: none; letter-spacing: 0.1em;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--sage); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 16px 30px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vw; }
+    .hero-left { padding: 120px 30px 60px; }
+    .services { padding: 80px 30px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .doctor { grid-template-columns: 1fr; padding: 80px 30px; gap: 50px; }
+    .trust { grid-template-columns: 1fr; padding: 60px 30px; }
+    .contact { grid-template-columns: 1fr; padding: 80px 30px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 30px; }
+  }
+
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Медцентр <span>Вайс</span></div>
+  <ul class="nav-links">
+    <li><a href="#services">Услуги</a></li>
+    <li><a href="#doctor">О докторе</a></li>
+    <li><a href="#contact">Контакты</a></li>
+    <li><a href="#contact" class="nav-cta">Записаться</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Медицинский центр</div>
+    <h1 class="hero-title">
+      Ваше здоровье —<br>
+      наша <em>забота</em>
+    </h1>
+    <p class="hero-desc">
+      Передовая диагностика и лечение в области маммологии, эндокринологии и УЗ-исследований. Индивидуальный подход к каждому пациенту.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Записаться на приём</a>
+      <a href="#services" class="btn-outline"><span>↓</span> Наши услуги</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-bg"></div>
+    <div class="hero-ornament">
+      <div class="doctor-initials">ЕВ</div>
+      <div class="doctor-title-hero">
+        Доктор медицины PHD<br>
+        Маммолог · Радиолог<br>
+        Эндокринолог
+      </div>
+    </div>
+    <div class="hero-floating-badge">
+      <div class="badge-num">15<sup>+</sup></div>
+      <div class="badge-text">лет опыта</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">Направления</div>
+      <h2 class="section-title">Наши <em>специализации</em></h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <span class="service-icon">🩺</span>
+      <div class="service-name">Маммолог</div>
+      <div class="service-desc">Диагностика и лечение заболеваний молочной железы на всех стадиях.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <span class="service-icon">⚗️</span>
+      <div class="service-name">Эндокринолог</div>
+      <div class="service-desc">Лечение заболеваний эндокринной системы и нарушений обмена веществ.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <span class="service-icon">🔬</span>
+      <div class="service-name">УЗД</div>
+      <div class="service-desc">Ультразвуковая диагностика внутренних органов, молочных желёз, щитовидной железы.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <span class="service-icon">📡</span>
+      <div class="service-name">Соноэластография</div>
+      <div class="service-desc">Современный метод оценки эластичности тканей для точной диагностики.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <span class="service-icon">🌊</span>
+      <div class="service-name">Допплеросканирование</div>
+      <div class="service-desc">Исследование кровотока сосудов с применением эффекта Доплера.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <span class="service-icon">⚡</span>
+      <div class="service-name">Физиотерапия</div>
+      <div class="service-desc">Все виды физиотерапевтического лечения с применением современных аппаратов.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">07</div>
+      <span class="service-icon">🌿</span>
+      <div class="service-name">Мастопатия · Лактостаз · Мастит</div>
+      <div class="service-desc">Комплексная диагностика и терапия заболеваний молочной железы.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">08</div>
+      <span class="service-icon">✨</span>
+      <div class="service-name">Коррекция веса · Аппаратная косметология</div>
+      <div class="service-desc">Программы коррекции фигуры и аппаратной эстетической медицины.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST NUMBERS -->
+<section class="trust">
+  <div class="trust-item reveal">
+    <div class="trust-num">15<sup>+</sup></div>
+    <div class="trust-label">Лет клинического<br>опыта</div>
+  </div>
+  <div class="trust-item reveal">
+    <div class="trust-num">3</div>
+    <div class="trust-label">Специализации<br>в одном центре</div>
+  </div>
+  <div class="trust-item reveal">
+    <div class="trust-num">PHD</div>
+    <div class="trust-label">Степень доктора<br>медицины</div>
+  </div>
+</section>
+
+<!-- DOCTOR -->
+<section class="doctor" id="doctor">
+  <div class="doctor-visual reveal">
+    <div class="doctor-frame">
+      <div class="doctor-frame-inner">
+        <div class="doctor-monogram">ЕВ</div>
+      </div>
+    </div>
+    <div class="doctor-badge-side">
+      <div class="bd">PHD</div>
+      <div class="bt">Доктор медицины</div>
+    </div>
+  </div>
+  <div class="doctor-content reveal">
+    <div class="section-eyebrow" style="color:var(--sage)">
+      <span style="display:block;width:30px;height:1px;background:var(--sage)"></span>
+      Главный врач
+    </div>
+    <h2 class="doctor-name-large">
+      <span>Елена Владимировна</span>
+      Вайс
+    </h2>
+    <div class="credentials">
+      <span class="cred-tag">Маммолог</span>
+      <span class="cred-tag">Радиолог</span>
+      <span class="cred-tag">Эндокринолог</span>
+      <span class="cred-tag">PHD степень</span>
+    </div>
+    <p class="doctor-bio">
+      Елена Владимировна Вайс — высококвалифицированный специалист с обширным опытом в области маммологии, радиологии и эндокринологии. Имеет учёную степень доктора медицины (PHD), что подтверждает высокий уровень научной и клинической компетентности.
+    </p>
+    <p class="doctor-bio">
+      Специализируется на ранней диагностике заболеваний молочной железы, ультразвуковых методах исследования, включая соноэластографию, а также на комплексном ведении пациентов с эндокринными нарушениями и проблемами грудного вскармливания.
+    </p>
+    <a href="#contact" class="btn-primary" style="display:inline-block;text-decoration:none">Записаться к доктору</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-info reveal">
+    <div class="section-eyebrow" style="color:var(--sage);display:flex;align-items:center;gap:12px">
+      <span style="display:block;width:30px;height:1px;background:var(--sage)"></span>
+      Контакты
+    </div>
+    <h2 class="section-title" style="color:var(--dark)">Свяжитесь<br><em style="color:var(--rose)">с нами</em></h2>
+    <p style="margin-top:20px;color:var(--text-light);line-height:1.8;font-weight:300;font-size:0.95rem">
+      Запишитесь на консультацию удобным для вас способом. Мы ответим в течение нескольких часов.
+    </p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-text-label">Телефон</div>
+          <div class="contact-text-val">+7 (000) 000-00-00</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-text-label">Адрес клиники</div>
+          <div class="contact-text-val">ул. Медицинская, д. 1<br>Москва, Россия</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-text-label">Режим работы</div>
+          <div class="contact-text-val">Пн–Пт: 09:00 – 19:00<br>Сб: 09:00 – 15:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form-area reveal">
+    <div class="form-title">Онлайн-запись</div>
+    <div class="form-sub">Оставьте заявку и мы перезвоним вам</div>
+    <div class="form-group">
+      <input type="text" placeholder="Ваше имя">
+    </div>
+    <div class="form-group">
+      <input type="tel" placeholder="Номер телефона">
+    </div>
+    <div class="form-group">
+      <input type="email" placeholder="Email (необязательно)">
+    </div>
+    <div class="form-group">
+      <textarea rows="4" placeholder="Направление / вопрос (необязательно)"></textarea>
+    </div>
+    <button class="btn-form">Отправить заявку →</button>
+    <p style="margin-top:16px;font-size:0.72rem;color:rgba(255,255,255,0.25);line-height:1.6;text-align:center">
+      Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Медцентр <span>Вайс</span></div>
+  <div class="footer-text">© 2025 Медицинский центр доктора Вайс. Все права защищены.</div>
+  <div class="footer-links">
+    <a href="#">Конфиденциальность</a>
+    <a href="#">Лицензии</a>
+    <a href="#contact">Контакты</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form submit
+  document.querySelector('.btn-form').addEventListener('click', function() {
+    this.textContent = '✓ Заявка отправлена!';
+    this.style.background = '#8aab9a';
+    setTimeout(() => {
+      this.textContent = 'Отправить заявку →';
+      this.style.background = '';
+    }, 3000);
+  });
+
+  // Smooth nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+</body>
+</html>
